@@ -10,7 +10,6 @@ resource "google_compute_instance" "vm-from-tf" {
     network    = var.vpc_network_name
     subnetwork = var.subnet_sg_name
     access_config {
-      nat_ip = google_compute_address.static_ip.address
     } # 外部IPを自動的に割り当て
   }
 
