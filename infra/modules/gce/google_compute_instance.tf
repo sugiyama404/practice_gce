@@ -1,6 +1,7 @@
 resource "google_compute_instance" "vm-from-tf" {
   name         = "gce-from-terraform"
   zone         = var.zone
+  tags         = ["http-server"]
   machine_type = "n1-standard-2"
 
   allow_stopping_for_update = true
@@ -8,15 +9,16 @@ resource "google_compute_instance" "vm-from-tf" {
   network_interface {
     network    = var.vpc_network_name
     subnetwork = var.subnet_sg_name
-    access_config {} # 外部IPを自動的に割り当て
+    access_config {
+    } # 外部IPを自動的に割り当て
   }
 
   metadata_startup_script = <<-EOT
     #!/bin/bash
     set -e
     apt-get update -y && apt-get install -y python3
-    echo "Starting Python HTTP server on port 8000"
-    nohup python3 -m http.server 8000 > /var/log/http_server.log 2>&1 &
+    echo "Starting Python HTTP server on port 80"
+    nohup python3 -m http.server 80 > /var/log/http_server.log 2>&1 &
   EOT
 
   boot_disk {

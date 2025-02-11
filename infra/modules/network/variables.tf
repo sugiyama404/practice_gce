@@ -7,7 +7,7 @@ variable "subnet_cidr" {
 variable "allowed_ingress_ports" {
   description = "List of allowed ingress ports"
   type        = list(string)
-  default     = ["8000", "22"]
+  default     = ["80", "22"]
 }
 
 variable "allowed_egress_ports" {
